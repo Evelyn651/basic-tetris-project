@@ -66,6 +66,29 @@ document.addEventListener('DOMContentLoaded', () => {
             squares[currentPosition + index].classList.remove('tetromino')
         })
     }
+
+    //make the tetromino move down every second
+    timerId = setInterval(moveDown, 1000)
+
+    //move down function
+    function moveDown(){
+        undraw()
+        currentPosition += width
+        draw()
+        freeze()
+    }
+
+    //freeze function to keep the tetrominoes in the grid when they reach the bottom of the grid
+    function freeze(){
+        if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))){
+            current.forEach(index => squares[currentPosition + index].classList.add('taken'))
+            //the next tetromino falls
+            random = Math.floor(Math.random() * theTetrominoes.length)
+            current = theTetrominoes[random][currentRotation]
+            currentPosition = 4
+            draw()
+        }
+    }
     // console.log(squares);
     // console.log("hello from app.js")
 })
